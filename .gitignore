@@ -1,0 +1,38 @@
+# -----------------------
+# Node (React frontend)
+# -----------------------
+node_modules/
+build/
+dist/
+.env
+.env.*.local
+*.log
+.cache/
+
+# -----------------------
+# .NET / C# (backend)
+# -----------------------
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.pdb
+*.mdb
+*.db
+*.DS_Store
+
+# Rider / VS Code / Visual Studio
+.idea/
+.vscode/
+*.code-workspace
+
+# -----------------------
+# General
+# -----------------------
+*.log
+logs/
+*.tmp
+*.bak
+Thumbs.db

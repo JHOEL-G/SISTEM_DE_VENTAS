@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36202.13 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplicacionWev", "AplicacionWev\AplicacionWev.csproj", "{DFF2CAD0-922A-4919-9AB1-2AACBB84797B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFF2CAD0-922A-4919-9AB1-2AACBB84797B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFF2CAD0-922A-4919-9AB1-2AACBB84797B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFF2CAD0-922A-4919-9AB1-2AACBB84797B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFF2CAD0-922A-4919-9AB1-2AACBB84797B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C70BF4E-B94E-48B6-8FF5-5602DBE2E566}
+	EndGlobalSection
+EndGlobal
