@@ -1,6 +1,0 @@
-@AplicacionWev_HostAddress = http://localhost:5115
-
-GET {{AplicacionWev_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
