@@ -1,86 +1,141 @@
-import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom'; // Importamos useLocation
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   MdDashboard,
   MdProductionQuantityLimits,
   MdSwapHoriz,
   MdOutlineAssessment,
-  MdSettings, 
-} from 'react-icons/md'; 
+  MdSettings,
+  MdMenu,
+  MdClose,
+} from "react-icons/md";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const location = useLocation(); 
-
-  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
 
   const cerrarSesion = () => {
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('token');
-    navigate('/login');
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   const menuItems = [
     {
-      name: 'Dashboard',
-      path: '/home',
+      name: "Dashboard",
+      path: "/home",
       icon: <MdDashboard className="mr-3 text-2xl" />,
     },
     {
-      name: 'Productos',
-      path: '/home/product-list',
+      name: "Productos",
+      path: "/home/product-list",
       icon: <MdProductionQuantityLimits className="mr-3 text-2xl" />,
     },
     {
-      name: 'Movimientos de Stock',
-      path: '/home/stock',
+      name: "Movimientos de Stock",
+      path: "/home/stock",
       icon: <MdSwapHoriz className="mr-3 text-2xl" />,
     },
     {
-      name: 'Reportes',
-      path: '/home/reportes',
+      name: "Reportes",
+      path: "/home/reportes",
       icon: <MdOutlineAssessment className="mr-3 text-2xl" />,
     },
   ];
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile && isOpen) {
+      setIsOpen(false);
+    }
+  }, [location.pathname, isMobile, isOpen]);
+
   return (
-    <div className="w-64 bg-blue-800 text-white flex flex-col min-h-screen shadow-lg">
-      <div className="p-6 text-2xl font-bold text-center border-b border-blue-700">
-        Sistema de Inventario
+    <>
+      <button
+        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-blue-800 text-white shadow-lg"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+      >
+        {isOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
+      </button>
+
+      {isMobile && isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
+      <div
+        className={`fixed top-0 left-0 h-full bg-blue-800 text-white flex flex-col shadow-lg z-50
+                    ${
+                      isMobile
+                        ? "w-64 transform transition-transform duration-300 ease-in-out"
+                        : "w-64"
+                    }
+                    ${
+                      isMobile && !isOpen
+                        ? "-translate-x-full"
+                        : "translate-x-0"
+                    }
+                    md:relative md:w-64 md:translate-x-0`}
+      >
+        <div className="p-6 text-2xl font-bold text-center border-b border-blue-700">
+          Sistema de Inventario
+        </div>
+        <nav className="flex-grow mt-6">
+          <ul>
+            {menuItems.map((item) => (
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  className={`flex items-center py-3 px-6 text-lg font-medium transition-colors duration-200
+                                        ${
+                                          location.pathname === item.path
+                                            ? "bg-blue-600 border-l-4 border-blue-400 text-white"
+                                            : "hover:bg-blue-700"
+                                        }`}
+                  onClick={() => isMobile && setIsOpen(false)}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="p-6 text-sm text-gray-300 border-t border-blue-700">
+          <p className="mb-1">Bienvenido : </p>
+          <p className="font-mono break-all">
+            {usuario?.nombre} {usuario?.apellido}
+          </p>
+          <p className="text-xs mt-1 text-gray-400 break-all">
+            {usuario?.email}
+          </p>
+        </div>
+        <div className="p-6">
+          <button
+            onClick={cerrarSesion}
+            className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-md transition-colors duration-200"
+          >
+            Cerrar Sesión
+          </button>
+        </div>
       </div>
-      <nav className="flex-grow mt-6">
-        <ul>
-          {menuItems.map((item) => (
-            <li key={item.path}>
-              <Link
-                to={item.path}
-                className={`flex items-center py-3 px-6 text-lg font-medium transition-colors duration-200
-                  ${location.pathname === item.path
-                    ? 'bg-blue-600 border-l-4 border-blue-400 text-white' // Estilo para activo
-                    : 'hover:bg-blue-700'
-                  }`}
-              >
-                {item.icon}
-                <span>{item.name}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <div className="p-6 text-sm text-gray-300 border-t border-blue-700">
-        <p className="mb-1">Bienvenido : </p>
-        <p className="font-mono break-all">{usuario?.nombre} {usuario?.apellido}</p>
-        <p className="text-xs mt-1 text-gray-400 break-all">{usuario?.email}</p>
-      </div>
-      <div className="p-6">
-        <button
-          onClick={cerrarSesion}
-          className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-md transition-colors duration-200"
-        >
-          Cerrar Sesión
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 
